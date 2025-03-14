@@ -3,17 +3,16 @@ package com.fiap.ecr.api_marcacao_consultas.controller;
 import com.fiap.ecr.api_marcacao_consultas.model.Usuario;
 import com.fiap.ecr.api_marcacao_consultas.service.UsuarioService;
 import com.fiap.ecr.api_marcacao_consultas.security.JwtTokenProvider;
+import com.fiap.ecr.api_marcacao_consultas.dto.LoginRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.fiap.ecr.api_marcacao_consultas.dto.LoginRequest;
 
 import java.util.Map;
 
 @RestController
 @RequestMapping("/usuarios")
-public class
-UsuarioController {
+public class UsuarioController {
     private final UsuarioService usuarioService;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -23,8 +22,13 @@ UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
+    public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario) {
+        try {
+            Usuario novoUsuario = usuarioService.salvarUsuario(usuario);
+            return ResponseEntity.ok(novoUsuario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
