@@ -6,6 +6,7 @@ import com.fiap.ecr.api_marcacao_consultas.security.JwtTokenProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.fiap.ecr.api_marcacao_consultas.dto.LoginRequest;
 
 import java.util.Map;
 
